@@ -28,7 +28,7 @@ public PasswordEncoder passwordEncoder() {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.csrf().disable() // Disable CSRF for development
+    http.csrf(csrf -> csrf.disable()) // Disable CSRF for development
         .authorizeHttpRequests(auth -> auth
         .requestMatchers("/h2-console/**").permitAll() // Allow all requests to the h2-console path
         .requestMatchers("/auth/**").permitAll()
