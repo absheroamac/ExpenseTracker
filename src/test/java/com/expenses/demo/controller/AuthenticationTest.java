@@ -6,10 +6,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.expenses.demo.DTOs.AuthReques;
-import com.expenses.demo.DTOs.AuthResponse;
-import com.expenses.demo.config.TestConfiguration;
 import com.expenses.demo.controllers.AuthenticationController;
 import com.expenses.demo.entities.User;
 import com.expenses.demo.services.UserService;
@@ -21,9 +18,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-// Use @MockBean here
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -58,8 +52,7 @@ public class AuthenticationTest {
     
     @MockitoBean
     private PasswordEncoder passwordEncoder;
-    
-    // **Add this mock bean to satisfy the dependency for SecureUserService**
+
     @MockitoBean
     private SecureUserService secureUserService;
 
@@ -69,7 +62,6 @@ public class AuthenticationTest {
         User user = new User(1L, "name", "userName@gmail.com", "password", 5000.0);
         when(userService.registerUser(any(User.class))).thenReturn(user);
 
-        // Stub password encoding if needed
         when(passwordEncoder.encode(any(CharSequence.class))).thenReturn("encodedPassword");
 
         mockMvc.perform(post("/auth/register")
@@ -84,7 +76,6 @@ public class AuthenticationTest {
     public void loginUserShouldGiveTokenObjectAndOkStatus() throws Exception {
 
         AuthReques authRequest = new AuthReques("username","password");
-        AuthResponse authResponse = new AuthResponse("token");
 
         Authentication dummyAuthentication = new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword());
 
