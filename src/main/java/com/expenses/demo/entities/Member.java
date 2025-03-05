@@ -22,16 +22,11 @@ public class Member {
     private Role role;
 
     @ManyToOne
-    @JoinColumn( name = "user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn( name="space_id")
+    @JoinColumn(name = "space_id")
     private Space space;
 
-    
-
-
-
-    
 }

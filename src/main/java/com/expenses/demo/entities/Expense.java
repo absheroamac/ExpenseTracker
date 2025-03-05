@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
+// TODO: Only shared splits will work now, update for individual splits aswell. 
 @Data
 @Entity
 public class Expense {
@@ -25,12 +26,11 @@ public class Expense {
     private Type type;
 
     @ManyToOne
-    @JoinColumn(name="space_id")
+    @JoinColumn(name = "space_id")
     private Space space;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    
 }
