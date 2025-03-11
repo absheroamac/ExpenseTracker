@@ -76,10 +76,10 @@ public class SpaceControllerTest {
 
         List<Long> memberIds = new ArrayList<>();
         memberIds.add(0L);
-        AddMemberRequests request = new AddMemberRequests(memberIds);
-        Space response = new Space(null, null, null, 50.00, 0, 0, 0);
+        AddMemberRequests request = new AddMemberRequests(0l, memberIds);
+        Space response = new Space(0l, null, null, 50.00, 0, 0, 0);
 
-        when(spaceService.addMembers(any(List.class))).thenReturn(response);
+        when(spaceService.addMembers(any(AddMemberRequests.class))).thenReturn(response);
 
         mockMvc.perform(post("/space/addmember").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))).andExpect(status().isOk())

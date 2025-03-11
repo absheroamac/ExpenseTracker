@@ -9,6 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class AddMemberRequests {
 
+    private Long spaceId;
     private List<Long> userIds;
 
 }

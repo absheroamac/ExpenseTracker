@@ -23,15 +23,10 @@ public class SpaceController {
     public ResponseEntity<Space> createNewSpace(@RequestBody SpaceCreationRequest request) {
 
         try {
-
             Space space = service.createSpace(request);
             return ResponseEntity.ok(space);
-
         } catch (Exception err) {
             throw new RuntimeException("Something went wrong");
-
         }
-
     }
-
 }
