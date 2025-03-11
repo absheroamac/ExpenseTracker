@@ -15,4 +15,5 @@ public class SpaceCreationRequest {
     private double livingBudget;
     private double livingExpense;
     private double totalExpense;
+
 }

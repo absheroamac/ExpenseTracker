@@ -26,6 +26,8 @@ import com.expenses.demo.controllers.SpaceController;
 import com.expenses.demo.entities.Space;
 import com.expenses.demo.entities.User;
 import com.expenses.demo.services.SpaceService;
+import com.expenses.demo.util.JwtUtility;
+import com.expenses.demo.util.SecureUserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,8 +41,14 @@ public class SpaceControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @MockitoBean
+    private JwtUtility jwtUtility;
+
     @Autowired
     MockMvc mockMvc;
+
+    @MockitoBean
+    private SecureUserService secureUserService;
 
     // TODO: Create Space ( Success )
 
@@ -56,7 +64,7 @@ public class SpaceControllerTest {
 
         mockMvc.perform(post("/space/newspace").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))).andExpect(status().isOk())
-                .andExpect(jsonPath("&.id").value(response.getId()));
+                .andExpect(jsonPath("$.id").value(response.getId()));
     }
 
     // TODO: Create Space ( Failure )
