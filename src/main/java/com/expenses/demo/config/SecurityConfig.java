@@ -17,24 +17,24 @@ public class SecurityConfig {
   JwtFilter jwtFilter;
 
   @Bean
-public PasswordEncoder passwordEncoder() {
+  public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
-}
+  }
 
-@Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+      throws Exception {
+    return authenticationConfiguration.getAuthenticationManager();
+  }
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable()) // Disable CSRF for development
         .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/h2-console/**").permitAll() // Allow all requests to the h2-console path
-        .requestMatchers("/auth/**").permitAll()
-        .anyRequest().authenticated())
-        .headers().frameOptions().disable() // Allow frames for H2 console
-        .and()
+            .requestMatchers("/h2-console/**").permitAll() // Allow all requests to the h2-console path
+            .requestMatchers("/auth/**").permitAll()
+            .anyRequest().authenticated())
+        .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // Allow frames for H2 console
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }

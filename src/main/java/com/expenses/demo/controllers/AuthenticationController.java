@@ -31,26 +31,25 @@ public class AuthenticationController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user){
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User createdUser = userService.registerUser(user);
         return ResponseEntity.ok(createdUser);
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthReques authRequest){
+    public AuthResponse login(@RequestBody AuthReques authRequest) {
         try {
             authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
-            );
+                    new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
 
             String token = jwtUtility.generateToken(authRequest.getEmail());
             return new AuthResponse(token);
-            
+
         } catch (AuthenticationException e) {
             throw new RuntimeException("Invalid Credentials");
-            
+
         }
     }
-    
+
 }

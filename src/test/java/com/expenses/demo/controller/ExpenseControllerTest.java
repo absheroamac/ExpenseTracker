@@ -1,6 +1,7 @@
 package com.expenses.demo.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -58,7 +59,15 @@ public class ExpenseControllerTest {
     // TODO: RemoveExpense Expense Should return the updated Space
     @Test
     @WithMockUser(username = "testUser")
-    public void RemoveExpenseShouldReturnTheUpdatedSpace() {
+    public void RemoveExpenseShouldReturnTheUpdatedSpace() throws Exception {
+
+        Space response = new Space(0L, "name", null, 0, 0, 0, 0);
+
+        when(expenseService.RemoveExpense(anyString())).thenReturn(response);
+
+        mockMvc.perform(post("expense/removeExpense").contentType(MediaType.APPLICATION_JSON)
+                .content("id")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalExpense").value(response.getTotalExpense()));
 
     }
 
